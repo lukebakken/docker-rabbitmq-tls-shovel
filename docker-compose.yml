@@ -1,0 +1,31 @@
+version: '3'
+
+services:
+  rmq0:
+    build: rmq0
+    hostname: rmq0
+    ports:
+      # HOST:CONTAINER
+      - 15672:15672
+  rmq1:
+    build: rmq1
+    hostname: rmq1
+    ports:
+      # HOST:CONTAINER
+      - 15673:15672
+  perf-test:
+    image: pivotalrabbitmq/perf-test:latest
+    command:
+      - --uri=amqp://rmq0
+      - --servers-startup-timeout=45
+      - --rate=1
+      - --producers=1
+      - --consumers=1
+      - --confirm=32
+      - --confirm-timeout=800
+      - --flag=mandatory
+      - --flag=persistent
+    depends_on:
+      - rmq0
+      - rmq1
+    restart: on-failure
