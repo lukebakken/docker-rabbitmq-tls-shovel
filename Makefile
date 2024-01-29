@@ -1,8 +1,7 @@
 .PHONY: clean down up perms rmq-perms
 
-RABBITMQ_DOCKER_TAG ?= rabbitmq:3-management
-
-clean: perms
+RABBITMQ_DOCKER_TAG ?= pivotalrabbitmq/rabbitmq:v3.12.x-otp-max-bazel
+clean:
 	git clean -xffd
 
 down:
@@ -22,13 +21,6 @@ rmq1-cert: $(CURDIR)/tls-gen/basic/result/server_rmq1_certificate.pem
 
 certs: rmq0-cert rmq1-cert
 
-up: rmq-perms
-	# NB: fresh stuffs
+up:
 	docker compose build --no-cache --pull --build-arg RABBITMQ_DOCKER_TAG=$(RABBITMQ_DOCKER_TAG)
 	docker compose up --pull always
-
-perms:
-	sudo chown -R "$(USER):$(USER)" data log
-
-rmq-perms:
-	sudo chown -R '999:999' data log
