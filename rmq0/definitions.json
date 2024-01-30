@@ -36,7 +36,7 @@
                 "dest-add-forward-headers": false,
                 "dest-protocol": "amqp091",
                 "dest-queue": "shovel-test",
-                "dest-uri": "amqps://rmq1",
+                "dest-uri": "amqps://rmq1?cacertfile=/etc/rabbitmq/ca_certificate.pem&certfile=/etc/rabbitmq/client_rmq0_certificate.pem&keyfile=/etc/rabbitmq/client_rmq0_key.pem",
                 "src-delete-after": "never",
                 "src-prefetch-count": 10,
                 "src-protocol": "amqp091",
